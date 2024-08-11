@@ -29,6 +29,10 @@ ALLOWED_HOSTS = [
     'todo-list-backend-tbwi.onrender.com'
 ]
 
+CSRF_TRUSTED_ORIGINS = [
+    'https://todo-list-backend-tbwi.onrender.com',
+]
+
 
 # Application definition
 
