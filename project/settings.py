@@ -11,7 +11,11 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
-TEST = True
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -20,18 +24,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-^91jqoqx*^#48tqa2q4#+uf(41+b07md%%tkjfrxp_t$dg(z@e'
+SECRET_KEY = os.getenv('SECKRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DEBUG') == 'True'
 
-ALLOWED_HOSTS = [
-    'todo-list-backend-tbwi.onrender.com'
-]
-
-CSRF_TRUSTED_ORIGINS = [
-    'https://todo-list-backend-tbwi.onrender.com',
-]
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS').split(',')
+CSRF_TRUSTED_ORIGINS = os.getenv('CSRF_TRUSTED_ORIGINS').split(',')
 
 
 # Application definition
@@ -47,7 +46,9 @@ INSTALLED_APPS = [
     'django_filters',
     'core',
     'rest_framework',
-    'drf_yasg'
+    'drf_yasg',
+    'constance',
+    'constance.backends.database',
 ]
 
 
@@ -91,15 +92,15 @@ WSGI_APPLICATION = 'project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-if TEST:
+if DEBUG:
     DATABASES = {
         'default': {
-            'ENGINE': 'django.db.backends.postgresql',
-            'NAME': 'postgres',
-            'USER': 'postgres.aphbqeiffhsqrvuieuob',
-            'PASSWORD': 'gDDVZYhz5SAGgrrk',
-            'HOST': 'aws-0-eu-central-1.pooler.supabase.com',
-            'PORT': '6543',
+            'ENGINE': os.getenv('DB_ENGINE'),
+            'NAME': os.getenv('DB_NAME'),
+            'USER': os.getenv('DB_USER'),
+            'PASSWORD': os.getenv('DB_PASSWORD'),
+            'HOST': os.getenv('DB_HOST'),
+            'PORT': os.getenv('DB_PORT'),
         }
     }
 else:
