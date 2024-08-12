@@ -58,6 +58,11 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 30
 }
 
+CONSTANCE_BACKEND = 'constance.backends.database.DatabaseBackend'
+CONSTANCE_CONFIG = {
+    'test': (True, 'Test value')
+}
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
